@@ -5,5 +5,5 @@ package com.alvin.framework.message.push.v2.tunnel;
  *
  * @author zhouwenxiang
  */
-public interface StatefulSdkTunnel extends SdkTunnel, StatefulTunnel {
+public abstract class AbstractStatefulSdkTunnel extends AbstractStatefulTunnel {
 }

@@ -10,7 +10,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public enum TunnelResultEnum {
+public enum TunnelTipEnum {
 
     NO_TUNNEL_SUCCEED("no tunnel succeed"),
     NOT_CONNECTED("not connected"),

@@ -1,9 +1,8 @@
 package com.alvin.framework.message.push.v2.tunnel;
 
-import com.alvin.framework.message.push.v2.model.TunnelResult;
-import com.alvin.framework.message.push.v2.model.enums.TunnelResultEnum;
+import com.alvin.framework.message.push.v2.model.TunnelTip;
+import com.alvin.framework.message.push.v2.model.enums.TunnelTipEnum;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -11,27 +10,27 @@ import java.util.List;
  *
  * @author zhouwenxiang
  */
-public class CombinedTunnel implements Tunnel {
+public class CombinedTunnel extends AbstractTunnel {
 
     @Override
-    public TunnelResult push(String receiver, String msg) {
-        for (Tunnel tunnel : tunnels) {
-            TunnelResult tunnelResult = tunnel.push(receiver, msg);
-            if (tunnelResult.isSuccessful()) {
-                return tunnelResult;
+    public TunnelTip push(String receiver, String msg) {
+        for (AbstractSingleTunnel tunnel : tunnels) {
+            TunnelTip tunnelTip = tunnel.push(receiver, msg);
+            if (tunnelTip.isSuccessful()) {
+                return tunnelTip;
             }
         }
-        return TunnelResult.ofFailed(TunnelResultEnum.NO_TUNNEL_SUCCEED);
+        return TunnelTip.error(TunnelTipEnum.NO_TUNNEL_SUCCEED);
     }
 
-    private List<SingleTunnel> tunnels;
+    private List<AbstractSingleTunnel> tunnels;
 
-    public CombinedTunnel combine(SingleTunnel singleTunnel) {
-        this.tunnels.add(singleTunnel);
+    public CombinedTunnel combine(AbstractSingleTunnel abstractSingleTunnel) {
+        this.tunnels.add(abstractSingleTunnel);
         return this;
     }
 
-    public List<SingleTunnel> getTunnels() {
+    public List<AbstractSingleTunnel> getTunnels() {
         return tunnels;
     }
 

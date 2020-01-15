@@ -5,5 +5,5 @@ package com.alvin.framework.message.push.v2.tunnel;
  *
  * @author zhouwenxiang
  */
-public interface SdkTunnel extends SingleTunnel {
+public abstract class AbstractSdkTunnel extends AbstractSingleTunnel {
 }

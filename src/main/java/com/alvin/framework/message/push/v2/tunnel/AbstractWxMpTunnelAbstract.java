@@ -5,5 +5,5 @@ package com.alvin.framework.message.push.v2.tunnel;
  *
  * @author zhouwenxiang
  */
-public interface WxAppletTunnel extends SingleTunnel {
+public abstract class AbstractWxMpTunnelAbstract extends AbstractSingleTunnel {
 }

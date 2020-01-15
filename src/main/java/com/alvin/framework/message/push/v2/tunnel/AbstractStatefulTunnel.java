@@ -1,14 +1,14 @@
 package com.alvin.framework.message.push.v2.tunnel;
 
-import com.alvin.framework.message.push.v2.model.TunnelResult;
-import com.alvin.framework.message.push.v2.model.enums.TunnelResultEnum;
+import com.alvin.framework.message.push.v2.model.TunnelTip;
+import com.alvin.framework.message.push.v2.model.enums.TunnelTipEnum;
 
 /**
  * datetime 2020/1/15 15:51
  *
  * @author zhouwenxiang
  */
-interface StatefulTunnel extends SingleTunnel {
+public abstract class AbstractStatefulTunnel extends AbstractSingleTunnel {
 
     /**
      * if receiver connected to this tunnel
@@ -16,7 +16,7 @@ interface StatefulTunnel extends SingleTunnel {
      * @param receiver receiver
      * @return true if connected
      */
-    boolean connected(String receiver);
+    abstract boolean connected(String receiver);
 
     /**
      * check connection before pushing
@@ -24,10 +24,10 @@ interface StatefulTunnel extends SingleTunnel {
      * @param msg data
      * @return TunnelResult
      */
-    default TunnelResult pushOnConnected(String receiver, String msg) {
+    public TunnelTip pushOnConnected(String receiver, String msg) {
         if (connected(receiver)) {
             return push(receiver, msg);
         }
-        return TunnelResult.ofFailed(TunnelResultEnum.NOT_CONNECTED);
+        return TunnelTip.error(TunnelTipEnum.NOT_CONNECTED);
     }
 }

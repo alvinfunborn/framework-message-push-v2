@@ -5,5 +5,5 @@ package com.alvin.framework.message.push.v2.tunnel;
  *
  * @author zhouwenxiang
  */
-public interface WebsocketTunnel extends StatefulTunnel {
+public abstract class AbstractWebsocketTunnel extends AbstractStatefulTunnel {
 }

@@ -10,11 +10,11 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public enum TunnelResultStatusEnum {
+public enum TunnelTipCodeEnum {
 
     UNKNOWN(1),
-    SUCCESS(2),
-    FAILED(3),
+    OK(2),
+    ERROR(3),
     ;
 
     private int code;
