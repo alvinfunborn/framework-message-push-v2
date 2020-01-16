@@ -12,8 +12,6 @@ import lombok.Getter;
 @Getter
 public enum TunnelTipEnum {
 
-    NO_TUNNEL_SUCCEED("no tunnel succeed"),
-    NOT_CONNECTED("not connected"),
     ;
 
     private String desc;

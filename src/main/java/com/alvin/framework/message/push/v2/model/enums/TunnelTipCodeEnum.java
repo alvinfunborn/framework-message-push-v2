@@ -14,7 +14,9 @@ public enum TunnelTipCodeEnum {
 
     UNKNOWN(1),
     OK(2),
-    ERROR(3),
+    BLOCKED(3),
+    NOT_CONNECTED(4),
+    ERROR(5),
     ;
 
     private int code;

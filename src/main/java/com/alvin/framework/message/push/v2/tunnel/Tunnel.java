@@ -12,8 +12,7 @@ public interface Tunnel {
     /**
      * push msg
      *
-     * @param receiver receiver
      * @param msg msg
      */
-    TunnelTip push(String receiver, String msg);
+    TunnelTip doPush(String msg);
 }

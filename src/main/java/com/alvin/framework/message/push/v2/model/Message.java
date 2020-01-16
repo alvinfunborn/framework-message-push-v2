@@ -1,5 +1,6 @@
 package com.alvin.framework.message.push.v2.model;
 
+import com.alvin.framework.message.push.v2.policy.RetryablePushPolicy;
 import lombok.Data;
 
 /**
@@ -13,5 +14,5 @@ public class Message {
     private String id;
     private String receiver;
     private String data;
-    private PushPolicy policy;
+    private RetryablePushPolicy policy;
 }
