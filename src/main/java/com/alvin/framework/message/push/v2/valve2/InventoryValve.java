@@ -1,6 +1,6 @@
 package com.alvin.framework.message.push.v2.valve2;
 
-import com.alvin.framework.message.push.v2.valve.Valve;
+import com.alvin.framework.message.push.v2.substance.valve.Valve;
 
 /**
  * datetime 2020/1/15 20:18

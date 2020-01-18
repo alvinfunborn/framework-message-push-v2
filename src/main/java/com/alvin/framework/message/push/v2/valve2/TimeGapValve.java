@@ -1,7 +1,7 @@
 package com.alvin.framework.message.push.v2.valve2;
 
 import com.alvin.framework.message.push.v2.handle.TimeGapQuota;
-import com.alvin.framework.message.push.v2.valve.Valve;
+import com.alvin.framework.message.push.v2.substance.valve.Valve;
 import lombok.Data;
 
 /**

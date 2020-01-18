@@ -6,7 +6,12 @@
 
     <groupId>com.alvin</groupId>
     <artifactId>framework-message-push-v2</artifactId>
+    <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
+    <modules>
+        <module>message-push-substance</module>
+        <module>message-push-wrapper</module>
+    </modules>
 
     <properties>
         <java.version>1.8</java.version>
@@ -15,7 +20,7 @@
         <swagger.version>2.9.2</swagger.version>
     </properties>
 
-<!--    <dependencyManagement>-->
+    <dependencyManagement>
         <dependencies>
             <dependency>
                 <!-- Import dependency management from Spring Boot -->
@@ -100,7 +105,7 @@
                 <version>1.18.10</version>
             </dependency>
         </dependencies>
-<!--    </dependencyManagement>-->
+    </dependencyManagement>
 
     <build>
         <pluginManagement>
