@@ -13,10 +13,10 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Data
 public class Message {
 
-    private String id;
-    private String data;
-    private RetryablePushPolicy policy;
-    private final AtomicInteger tryTimes = new AtomicInteger(0);
+    protected String id;
+    protected String data;
+    protected RetryablePushPolicy policy;
+    protected final AtomicInteger tryTimes = new AtomicInteger(0);
 
     public int markTried() {
         return this.tryTimes.addAndGet(1);

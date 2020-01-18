@@ -17,7 +17,7 @@ public interface TunnelRecorder {
 
     LocalDateTime lastAttemptTime(long rindex);
 
-    void reportReceipt(String id);
+    void recordSuccess();
 
-    boolean consumeReceipt(String id);
+    void recordAttempt();
 }

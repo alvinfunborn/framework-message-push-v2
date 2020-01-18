@@ -48,6 +48,7 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
     @Override
     public void add(Message message, boolean head) {
         queue.add(message, head);
+        start();
     }
 
     @Override
@@ -77,7 +78,7 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
         long timeout = message.getPolicy().getTunnelPolicy().getTimeoutMills();
         long start = System.currentTimeMillis();
         for (long now = start, step = 100; now - start < timeout; step *= 1.1, now += step) {
-            if (tunnel.getRecorder().consumeReceipt(id)) {
+            if (queue.consumeReceipt(id)) {
                 // find receipt
                 return TunnelTip.ok();
             }

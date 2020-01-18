@@ -21,7 +21,7 @@ public class TimeWindowValve extends AbstractValve {
         TimeWindowRule timeWindowRule = (TimeWindowRule) rule;
         if (timeWindowRule.getSuccessLimit() > 0) {
             LocalDateTime time = tunnel.getRecorder().lastSuccessTime(timeWindowRule.getSuccessLimit());
-            if (Duration.between(time, LocalDateTime.now()).toMillis() <= timeWindowRule.getWindowMills()) {
+            if (time != null && Duration.between(time, LocalDateTime.now()).toMillis() <= timeWindowRule.getWindowMills()) {
                 LocalDateTime suggestTime = time.plus(timeWindowRule.getWindowMills(), ChronoUnit.MILLIS);
                 return ValveTip.block(String.format("%d successful push allowed from %s to %s", timeWindowRule.getSuccessLimit(), time, suggestTime),
                         suggestTime);
@@ -29,7 +29,7 @@ public class TimeWindowValve extends AbstractValve {
         }
         if (timeWindowRule.getAttemptLimit() > 0) {
             LocalDateTime time = tunnel.getRecorder().lastAttemptTime(timeWindowRule.getAttemptLimit());
-            if (Duration.between(time, LocalDateTime.now()).toMillis() <= timeWindowRule.getWindowMills()) {
+            if (time != null && Duration.between(time, LocalDateTime.now()).toMillis() <= timeWindowRule.getWindowMills()) {
                 LocalDateTime suggestTime = time.plus(timeWindowRule.getWindowMills(), ChronoUnit.MILLIS);
                 return ValveTip.block(String.format("%d attempt allowed from %s to %s", timeWindowRule.getAttemptLimit(), time, suggestTime),
                         suggestTime);

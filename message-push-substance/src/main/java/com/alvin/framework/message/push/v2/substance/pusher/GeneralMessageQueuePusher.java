@@ -1,6 +1,7 @@
 package com.alvin.framework.message.push.v2.substance.pusher;
 
 import com.alvin.framework.message.push.v2.substance.executor.Executor;
+import com.alvin.framework.message.push.v2.substance.lock.AbstractPushLock;
 import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
 import com.alvin.framework.message.push.v2.substance.queue.AbstractMessageQueue;
@@ -15,8 +16,8 @@ import com.alvin.framework.message.push.v2.substance.tunnel.AbstractTunnel;
  */
 public class GeneralMessageQueuePusher extends AbstractSingleMessageQueuePusher {
 
-    public GeneralMessageQueuePusher(AbstractTunnel tunnel, AbstractMessageQueue queue, Executor executor) {
-        super(tunnel, queue, executor);
+    public GeneralMessageQueuePusher(AbstractTunnel tunnel, AbstractMessageQueue queue, Executor executor, AbstractPushLock lock) {
+        super(tunnel, queue, executor, lock);
     }
 
     @Override
@@ -35,6 +36,7 @@ public class GeneralMessageQueuePusher extends AbstractSingleMessageQueuePusher 
     public boolean postPush(Message message) {
         TunnelTip tunnelTip = push(message);
         markTried(message);
+        queue.onPushAttempt(message);
         if (tunnelTip.isOk()) {
             queue.onPushOk(message);
         } else {

@@ -1,6 +1,7 @@
 package com.alvin.framework.message.push.v2.substance.pusher;
 
 import com.alvin.framework.message.push.v2.substance.executor.Executor;
+import com.alvin.framework.message.push.v2.substance.lock.AbstractPushLock;
 import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.queue.AbstractMessageQueue;
 import com.alvin.framework.message.push.v2.substance.tunnel.AbstractTunnel;
@@ -18,12 +19,13 @@ public class StandardPusher implements Pusher {
 
     public StandardPusher(AbstractTunnel tunnel,
                           Executor executor,
+                          AbstractPushLock lock,
                           AbstractMessageQueue orderedMessageQueue,
                           AbstractMessageQueue statefulMessageQueue,
                           AbstractMessageQueue generalMessageQueue) {
-        this.orderedMessageQueuePusher = new OrderedMessageQueuePusher(tunnel, orderedMessageQueue, executor);
-        this.statefulMessageQueuePusher = new StatefulMessageQueuePusher(tunnel, statefulMessageQueue, executor);
-        this.generalMessageQueuePusher = new GeneralMessageQueuePusher(tunnel, generalMessageQueue, executor);
+        this.orderedMessageQueuePusher = new OrderedMessageQueuePusher(tunnel, orderedMessageQueue, executor, lock);
+        this.statefulMessageQueuePusher = new StatefulMessageQueuePusher(tunnel, statefulMessageQueue, executor, lock);
+        this.generalMessageQueuePusher = new GeneralMessageQueuePusher(tunnel, generalMessageQueue, executor, lock);
     }
 
     @Override

@@ -11,6 +11,7 @@
     <modules>
         <module>message-push-substance</module>
         <module>message-push-wrapper</module>
+        <module>message-push-application</module>
     </modules>
 
     <properties>

@@ -12,9 +12,15 @@ public interface MessageQueue {
 
     void add(Message message, boolean head);
 
+    Message pop();
+
     void onPushOk(Message message);
+
+    void onPushAttempt(Message message);
 
     void onPushError(Message message, TunnelTip tip);
 
-    Message pop();
+    void reportReceipt(String id);
+
+    boolean consumeReceipt(String id);
 }

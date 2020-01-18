@@ -21,14 +21,14 @@ public class TimeGapValve extends AbstractValve {
         TimeGapRule timeGapRule = (TimeGapRule) rule;
         if (timeGapRule.getSuccessGapMills() > 0) {
             LocalDateTime time = tunnel.getRecorder().lastSuccessTime();
-            if (Duration.between(time, LocalDateTime.now()).toMillis() < timeGapRule.getSuccessGapMills()) {
+            if (time != null && Duration.between(time, LocalDateTime.now()).toMillis() < timeGapRule.getSuccessGapMills()) {
                 return ValveTip.block(String.format("last successful push at %s, must wait for %d ms", time, timeGapRule.getSuccessGapMills()),
                         time.plus(timeGapRule.getSuccessGapMills() + 3000, ChronoUnit.MILLIS));
             }
         }
         if (timeGapRule.getAttemptGapMills() > 0) {
             LocalDateTime time = tunnel.getRecorder().lastAttemptTime();
-            if (Duration.between(time, LocalDateTime.now()).toMillis() < timeGapRule.getAttemptGapMills()) {
+            if (time != null && Duration.between(time, LocalDateTime.now()).toMillis() < timeGapRule.getAttemptGapMills()) {
                 return ValveTip.block(String.format("last attempt at %s, must wait for %d ms", time, timeGapRule.getAttemptGapMills()),
                         time.plus(timeGapRule.getAttemptGapMills() + 3000, ChronoUnit.MILLIS));
             }

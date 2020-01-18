@@ -1,6 +1,7 @@
 package com.alvin.framework.message.push.v2.substance.pusher;
 
 import com.alvin.framework.message.push.v2.substance.executor.Executor;
+import com.alvin.framework.message.push.v2.substance.lock.AbstractPushLock;
 import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
 import com.alvin.framework.message.push.v2.substance.queue.AbstractMessageQueue;
@@ -18,8 +19,8 @@ import java.time.LocalDateTime;
  */
 public class OrderedMessageQueuePusher extends AbstractSingleMessageQueuePusher {
 
-    public OrderedMessageQueuePusher(AbstractTunnel tunnel, AbstractMessageQueue queue, Executor executor) {
-        super(tunnel, queue, executor);
+    public OrderedMessageQueuePusher(AbstractTunnel tunnel, AbstractMessageQueue queue, Executor executor, AbstractPushLock lock) {
+        super(tunnel, queue, executor, lock);
     }
 
     @Override
@@ -40,6 +41,7 @@ public class OrderedMessageQueuePusher extends AbstractSingleMessageQueuePusher 
         TunnelTip tunnelTip = push(message);
         if (tunnelTip.isOk()) {
             markTried(message);
+            queue.onPushAttempt(message);
             queue.onPushOk(message);
             return true;
         } else if (tunnelTip.isNotConnected() && message.getPolicy().getTunnelPolicy().isStateful()) {
@@ -47,6 +49,7 @@ public class OrderedMessageQueuePusher extends AbstractSingleMessageQueuePusher 
             return false;
         } else {
             markTried(message);
+            queue.onPushAttempt(message);
             if (message.getPolicy().getRetryPolicy() != null && message.getPolicy().getRetryPolicy().getRetry() >= message.getTryTimes().get()) {
                 preRetry(message, tunnelTip);
                 return pushContinuously(message);

@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author zhouwenxiang
  */
-public class CombinedStatelessTunnel extends AbstractStatelessTunnel {
+public class RedundantStatelessTunnel extends AbstractStatelessTunnel {
 
     @Override
     public TunnelTip doPush(String msg) {
@@ -27,7 +27,7 @@ public class CombinedStatelessTunnel extends AbstractStatelessTunnel {
 
     private List<AbstractSingleTunnel> tunnels;
 
-    public CombinedStatelessTunnel combine(AbstractSingleTunnel abstractSingleTunnel) {
+    public RedundantStatelessTunnel combine(AbstractSingleTunnel abstractSingleTunnel) {
         this.tunnels.add(abstractSingleTunnel);
         return this;
     }
@@ -54,7 +54,7 @@ public class CombinedStatelessTunnel extends AbstractStatelessTunnel {
         if (null == obj || getClass() != obj.getClass()) {
             return false;
         }
-        CombinedStatelessTunnel o = (CombinedStatelessTunnel) obj;
+        RedundantStatelessTunnel o = (RedundantStatelessTunnel) obj;
         int thisSize = this.tunnels.size();
         int size = o.tunnels.size();
         if (thisSize != size) {

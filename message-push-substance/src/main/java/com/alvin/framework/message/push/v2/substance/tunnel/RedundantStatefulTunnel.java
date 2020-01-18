@@ -9,7 +9,7 @@ import java.util.List;
  *
  * @author zhouwenxiang
  */
-public class CombinedStatefulTunnel extends AbstractStatefulTunnel {
+public class RedundantStatefulTunnel extends AbstractStatefulTunnel {
 
     @Override
     public boolean connected() {
@@ -37,7 +37,7 @@ public class CombinedStatefulTunnel extends AbstractStatefulTunnel {
 
     private List<AbstractStatefulTunnel> tunnels;
 
-    public CombinedStatefulTunnel combine(AbstractStatefulTunnel abstractSingleTunnel) {
+    public RedundantStatefulTunnel combine(AbstractStatefulTunnel abstractSingleTunnel) {
         this.tunnels.add(abstractSingleTunnel);
         return this;
     }
@@ -64,7 +64,7 @@ public class CombinedStatefulTunnel extends AbstractStatefulTunnel {
         if (null == obj || getClass() != obj.getClass()) {
             return false;
         }
-        CombinedStatefulTunnel o = (CombinedStatefulTunnel) obj;
+        RedundantStatefulTunnel o = (RedundantStatefulTunnel) obj;
         int thisSize = this.tunnels.size();
         int size = o.tunnels.size();
         if (thisSize != size) {
