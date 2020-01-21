@@ -1,26 +1,18 @@
-package com.alvin.framework.message.push.v2.substance.tunnel;
+package com.alvin.framework.message.push.v2.wrapper.tunnel;
 
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
 import com.alvin.framework.message.push.v2.substance.model.ValveTip;
-import com.alvin.framework.message.push.v2.substance.recorder.AbstractTunnelRecorder;
-import com.alvin.framework.message.push.v2.substance.valve.AbstractValve;
 import com.alvin.framework.message.push.v2.substance.valve.Valve;
 
-import java.util.List;
-
 /**
- * datetime 2020/1/15 15:51
+ * datetime 2020/1/21 11:40
  *
  * @author zhouwenxiang
  */
-public abstract class AbstractStatefulTunnel extends AbstractSingleTunnel implements StatefulTunnel {
-
-    public AbstractStatefulTunnel(String name, AbstractTunnelRecorder recorder, List<AbstractValve> valves) {
-        super(name, recorder, valves);
-    }
+public abstract class AbstractWrappedStatefulTunnel extends AbstractWrappedSingleTunnel implements WrappedStatefulTunnel {
 
     @Override
-    public TunnelTip push(String msg) {
+    public TunnelTip push(String receiver, String msg) {
         for (Valve valve : valves) {
             ValveTip valveTip = valve.control();
             if (!valveTip.isOk()) {
@@ -36,7 +28,7 @@ public abstract class AbstractStatefulTunnel extends AbstractSingleTunnel implem
      * @return TunnelResult
      */
     @Override
-    public TunnelTip pushWhenConnected(String msg) {
+    public TunnelTip pushWhenConnected(String receiver, String msg) {
         for (Valve valve : valves) {
             ValveTip valveTip = valve.control();
             if (!valveTip.isOk()) {

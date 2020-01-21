@@ -1,5 +1,9 @@
 package com.alvin.framework.message.push.v2.substance.recorder;
 
+import com.alvin.framework.message.push.v2.substance.model.Business;
+import com.alvin.framework.message.push.v2.substance.model.Message;
+import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
+
 import java.time.LocalDateTime;
 
 /**
@@ -9,15 +13,15 @@ import java.time.LocalDateTime;
  */
 public interface TunnelRecorder {
 
-    LocalDateTime lastSuccessTime();
+    LocalDateTime lastSuccessTime(long num);
+    LocalDateTime lastSuccessTime(Business biz, long num);
 
-    LocalDateTime lastSuccessTime(long rindex);
+    LocalDateTime lastAttemptTime(long num);
+    LocalDateTime lastAttemptTime(Business biz, long num);
 
-    LocalDateTime lastAttemptTime();
+    void recordError(Message message, TunnelTip tip);
 
-    LocalDateTime lastAttemptTime(long rindex);
+    void recordSuccess(Message message);
 
-    void recordSuccess();
-
-    void recordAttempt();
+    void recordAttempt(Message message);
 }

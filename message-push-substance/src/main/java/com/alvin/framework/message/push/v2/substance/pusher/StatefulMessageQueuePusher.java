@@ -47,18 +47,18 @@ public class StatefulMessageQueuePusher extends AbstractSingleMessageQueuePusher
         TunnelTip tunnelTip = push(message);
         if (tunnelTip.isOk()) {
             markTried(message);
-            queue.onPushAttempt(message);
-            queue.onPushOk(message);
+            tunnel.getRecorder().recordAttempt(message);
+            tunnel.getRecorder().recordSuccess(message);
         } else if (tunnelTip.isNotConnected()) {
             queue.add(message, true);
         } else {
             markTried(message);
-            queue.onPushAttempt(message);
+            tunnel.getRecorder().recordAttempt(message);
             if (message.getPolicy().getRetryPolicy() != null && message.getPolicy().getRetryPolicy().getRetry() >= message.getTryTimes().get()) {
                 preRetry(message, tunnelTip);
                 queue.add(message, true);
             }
-            queue.onPushError(message, tunnelTip);
+            tunnel.getRecorder().recordError(message, tunnelTip);
         }
         return true;
     }

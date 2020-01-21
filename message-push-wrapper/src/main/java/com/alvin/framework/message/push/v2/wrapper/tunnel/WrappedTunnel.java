@@ -14,5 +14,5 @@ public interface WrappedTunnel {
      *
      * @param msg msg
      */
-    TunnelTip doPush(String msg);
+    TunnelTip doPush(String receiver, String msg);
 }

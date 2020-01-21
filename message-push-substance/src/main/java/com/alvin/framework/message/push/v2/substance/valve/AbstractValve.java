@@ -15,13 +15,13 @@ public abstract class AbstractValve implements Valve {
     protected AbstractTunnel tunnel;
 
     public void setRule(Rule rule) {
-        if (executable(rule)) {
+        if (support(rule)) {
             this.rule = rule;
         }
         throw new IllegalArgumentException("rule not supported in this valve");
     }
 
-    public void registerTunnel(AbstractTunnel tunnel) {
+    public void bindTunnel(AbstractTunnel tunnel) {
         this.tunnel = tunnel;
     }
 

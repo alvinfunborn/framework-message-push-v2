@@ -1,6 +1,8 @@
 package com.alvin.framework.message.push.v2.substance.tunnel;
 
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
+import com.alvin.framework.message.push.v2.substance.recorder.AbstractTunnelRecorder;
+import com.alvin.framework.message.push.v2.substance.valve.AbstractValve;
 
 import java.util.List;
 
@@ -10,6 +12,10 @@ import java.util.List;
  * @author zhouwenxiang
  */
 public class RedundantStatelessTunnel extends AbstractStatelessTunnel {
+
+    public RedundantStatelessTunnel(String name, AbstractTunnelRecorder recorder, List<AbstractValve> valves) {
+        super(name, recorder, valves);
+    }
 
     @Override
     public TunnelTip doPush(String msg) {

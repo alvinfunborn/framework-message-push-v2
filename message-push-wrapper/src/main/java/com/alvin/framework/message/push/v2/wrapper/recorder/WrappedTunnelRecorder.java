@@ -1,5 +1,7 @@
 package com.alvin.framework.message.push.v2.wrapper.recorder;
 
+import com.alvin.framework.message.push.v2.substance.model.Message;
+import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
 import com.alvin.framework.message.push.v2.substance.tunnel.AbstractTunnel;
 
 import java.time.LocalDateTime;
@@ -11,15 +13,13 @@ import java.time.LocalDateTime;
  */
 public interface WrappedTunnelRecorder {
 
-    LocalDateTime lastSuccessTime(AbstractTunnel tunnel);
+    LocalDateTime lastSuccessTime(AbstractTunnel tunnel, long number);
 
-    LocalDateTime lastSuccessTime(AbstractTunnel tunnel, long rindex);
+    LocalDateTime lastAttemptTime(AbstractTunnel tunnel, long number);
 
-    LocalDateTime lastAttemptTime(AbstractTunnel tunnel);
+    void recordError(Message message, TunnelTip tip);
 
-    LocalDateTime lastAttemptTime(AbstractTunnel tunnel, long rindex);
+    void recordSuccess(Message message);
 
-    void recordSuccess(AbstractTunnel tunnel);
-
-    void recordAttempt(AbstractTunnel tunnel);
+    void recordAttempt(Message message);
 }

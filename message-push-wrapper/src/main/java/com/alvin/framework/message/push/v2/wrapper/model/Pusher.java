@@ -10,9 +10,9 @@ import lombok.Data;
 @Data
 public class Pusher {
 
-    private String receiver;
-    private String biz;
-    private String tunnelName;
+    protected String receiver;
+    protected String biz;
+    protected String tunnelName;
 
     @Override
     public boolean equals(Object obj) {

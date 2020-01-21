@@ -125,6 +125,7 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
 
     protected void preRetry(Message message, TunnelTip tunnelTip) {
         message.getPolicy().setTunnelPolicy(message.getPolicy().getRetryPolicy().getTunnelPolicy());
+        // todo retry delay factory, retry max times;
         if (message.getPolicy().getRetryPolicy().isFollowSuggestiong() && validSuggestTime(tunnelTip.getSuggestTime())) {
             message.getPolicy().setTrigger(ScheduleTrigger.at(tunnelTip.getSuggestTime()));
         } else {

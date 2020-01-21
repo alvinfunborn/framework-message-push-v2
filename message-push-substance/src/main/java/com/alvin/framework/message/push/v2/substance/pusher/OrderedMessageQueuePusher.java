@@ -41,20 +41,20 @@ public class OrderedMessageQueuePusher extends AbstractSingleMessageQueuePusher 
         TunnelTip tunnelTip = push(message);
         if (tunnelTip.isOk()) {
             markTried(message);
-            queue.onPushAttempt(message);
-            queue.onPushOk(message);
+            tunnel.getRecorder().recordAttempt(message);
+            tunnel.getRecorder().recordSuccess(message);
             return true;
         } else if (tunnelTip.isNotConnected() && message.getPolicy().getTunnelPolicy().isStateful()) {
             queue.add(message, true);
             return false;
         } else {
             markTried(message);
-            queue.onPushAttempt(message);
+            tunnel.getRecorder().recordAttempt(message);
             if (message.getPolicy().getRetryPolicy() != null && message.getPolicy().getRetryPolicy().getRetry() >= message.getTryTimes().get()) {
                 preRetry(message, tunnelTip);
                 return pushContinuously(message);
             }
-            queue.onPushError(message, tunnelTip);
+            tunnel.getRecorder().recordError(message, tunnelTip);
             return true;
         }
     }

@@ -36,15 +36,15 @@ public class GeneralMessageQueuePusher extends AbstractSingleMessageQueuePusher 
     public boolean postPush(Message message) {
         TunnelTip tunnelTip = push(message);
         markTried(message);
-        queue.onPushAttempt(message);
+        tunnel.getRecorder().recordAttempt(message);
         if (tunnelTip.isOk()) {
-            queue.onPushOk(message);
+            tunnel.getRecorder().recordSuccess(message);
         } else {
             if (message.getPolicy().getRetryPolicy() != null && message.getPolicy().getRetryPolicy().getRetry() >= message.getTryTimes().get()) {
                 preRetry(message, tunnelTip);
                 queue.add(message, true);
             }
-            queue.onPushError(message, tunnelTip);
+            tunnel.getRecorder().recordError(message, tunnelTip);
         }
         return true;
     }

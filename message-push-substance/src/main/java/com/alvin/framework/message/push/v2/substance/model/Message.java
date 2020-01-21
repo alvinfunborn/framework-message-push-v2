@@ -14,6 +14,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 public class Message {
 
     protected String id;
+    protected Business biz;
     protected String data;
     protected RetryablePushPolicy policy;
     protected final AtomicInteger tryTimes = new AtomicInteger(0);

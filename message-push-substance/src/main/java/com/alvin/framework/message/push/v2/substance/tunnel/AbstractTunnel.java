@@ -20,11 +20,17 @@ public abstract class AbstractTunnel implements Tunnel {
     protected AbstractTunnelRecorder recorder;
     protected List<AbstractValve> valves;
 
+    public AbstractTunnel(String name, AbstractTunnelRecorder recorder, List<AbstractValve> valves) {
+        this.name = name;
+        this.recorder = recorder;
+        this.valves = valves;
+    }
+
     public void assembleValve(AbstractValve valve) {
         if (valves == null) {
             valves = new ArrayList<>();
         }
-        valve.registerTunnel(this);
+        valve.bindTunnel(this);
         valves.add(valve);
     }
 

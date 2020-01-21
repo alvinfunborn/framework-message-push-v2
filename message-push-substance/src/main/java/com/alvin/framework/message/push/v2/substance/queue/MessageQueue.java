@@ -12,12 +12,6 @@ public interface MessageQueue {
 
     void add(Message message, boolean head);
 
-    void onPushOk(Message message);
-
-    void onPushAttempt(Message message);
-
-    void onPushError(Message message, TunnelTip tip);
-
     void reportReceipt(String id);
 
     boolean consumeReceipt(String id);

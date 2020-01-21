@@ -12,6 +12,6 @@ public interface Valve {
 
     ValveTip control();
 
-    boolean executable(Rule rule);
+    boolean support(Rule rule);
 
 }

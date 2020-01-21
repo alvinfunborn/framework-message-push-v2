@@ -12,20 +12,11 @@ import java.util.List;
  *
  * @author zhouwenxiang
  */
-// todo wrapped valve, tunnel 统一
-public class AbstractWrappedTunnel {
+public abstract class AbstractWrappedTunnel implements WrappedTunnel {
 
     protected String name;
-    protected List<AbstractValve> valves;
 
-    public void assembleValve(AbstractValve valve) {
-        if (valves == null) {
-            valves = new ArrayList<>();
-        }
-        valve.registerTunnel(this);
-        valves.add(valve);
-    }
 
-    public abstract TunnelTip push(String msg);
+    public abstract TunnelTip push(String receiver, String msg);
 
 }
