@@ -4,7 +4,7 @@ import com.alvin.framework.message.push.v2.substance.executor.Executor;
 import com.alvin.framework.message.push.v2.substance.lock.AbstractPushLock;
 import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
-import com.alvin.framework.message.push.v2.substance.queue.AbstractMessageQueue;
+import com.alvin.framework.message.push.v2.substance.queue.AbstractClusterMessageQueue;
 import com.alvin.framework.message.push.v2.substance.trigger.PushTrigger;
 import com.alvin.framework.message.push.v2.substance.trigger.ScheduleTrigger;
 import com.alvin.framework.message.push.v2.substance.tunnel.AbstractTunnel;
@@ -16,7 +16,7 @@ import com.alvin.framework.message.push.v2.substance.tunnel.AbstractTunnel;
  */
 public class GeneralMessageQueuePusher extends AbstractSingleMessageQueuePusher {
 
-    public GeneralMessageQueuePusher(AbstractTunnel tunnel, AbstractMessageQueue queue, Executor executor, AbstractPushLock lock) {
+    public GeneralMessageQueuePusher(AbstractTunnel tunnel, AbstractClusterMessageQueue queue, Executor executor, AbstractPushLock lock) {
         super(tunnel, queue, executor, lock);
     }
 
@@ -47,5 +47,10 @@ public class GeneralMessageQueuePusher extends AbstractSingleMessageQueuePusher 
             queue.onPushError(message, tunnelTip);
         }
         return true;
+    }
+
+    @Override
+    protected Message pop() {
+        return queue.popGeneralMessage();
     }
 }

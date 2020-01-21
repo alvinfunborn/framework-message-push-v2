@@ -13,4 +13,5 @@ public interface Pusher {
 
     void add(Message message, boolean head);
 
+    void reportReceipt(String messageId);
 }

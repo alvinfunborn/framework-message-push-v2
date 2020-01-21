@@ -4,7 +4,7 @@ import com.alvin.framework.message.push.v2.substance.executor.Executor;
 import com.alvin.framework.message.push.v2.substance.lock.AbstractPushLock;
 import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
-import com.alvin.framework.message.push.v2.substance.queue.AbstractMessageQueue;
+import com.alvin.framework.message.push.v2.substance.queue.AbstractClusterMessageQueue;
 import com.alvin.framework.message.push.v2.substance.trigger.ScheduleTrigger;
 import com.alvin.framework.message.push.v2.substance.tunnel.AbstractStatefulTunnel;
 import com.alvin.framework.message.push.v2.substance.tunnel.AbstractTunnel;
@@ -19,12 +19,12 @@ import java.time.LocalDateTime;
 public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQueuePusher {
 
     protected AbstractTunnel tunnel;
-    protected AbstractMessageQueue queue;
+    protected AbstractClusterMessageQueue queue;
     protected Executor executor;
     protected AbstractPushLock lock;
 
     public AbstractSingleMessageQueuePusher(AbstractTunnel tunnel,
-                                            AbstractMessageQueue queue,
+                                            AbstractClusterMessageQueue queue,
                                             Executor executor,
                                             AbstractPushLock lock) {
         this.tunnel = tunnel;
@@ -35,9 +35,12 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
 
     @Override
     public void start() {
+        doStart();
+    }
+
+    private void doStart() {
         try {
             if (lock.tryLock()) {
-                queue.bindTunnel(tunnel);
                 executor.execute(this::pushContinuously, true);
             }
         } finally {
@@ -52,9 +55,14 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
     }
 
     @Override
+    public void reportReceipt(String id) {
+        queue.reportReceipt(id);
+    }
+
+    @Override
     public void pushContinuously() {
         while (true) {
-            Message message = queue.pop();
+            Message message = pop();
             if (message == null) {
                 break;
             }
@@ -63,6 +71,8 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
             }
         }
     }
+
+    protected abstract Message pop();
 
     protected TunnelTip push(Message message) {
         TunnelTip tunnelTip = pushByStateful(message);
@@ -77,7 +87,7 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
         String id = message.getId();
         long timeout = message.getPolicy().getTunnelPolicy().getTimeoutMills();
         long start = System.currentTimeMillis();
-        for (long now = start, step = 100; now - start < timeout; step *= 1.1, now += step) {
+        for (long now = start, step = 100; now - start < timeout; step *= 1.1, now += step) { // todo 优化等待receipt
             if (queue.consumeReceipt(id)) {
                 // find receipt
                 return TunnelTip.ok();

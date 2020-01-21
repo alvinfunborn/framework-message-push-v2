@@ -12,8 +12,6 @@ public interface MessageQueue {
 
     void add(Message message, boolean head);
 
-    Message pop();
-
     void onPushOk(Message message);
 
     void onPushAttempt(Message message);
