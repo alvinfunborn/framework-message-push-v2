@@ -1,5 +1,7 @@
 package com.alvin.framework.message.push.v2.wrapper.model;
 
+import com.alvin.framework.message.push.v2.wrapper.receiver.Receiver;
+import com.alvin.framework.message.push.v2.wrapper.tunnel.AbstractWrappedTunnel;
 import lombok.Data;
 
 /**
@@ -10,12 +12,16 @@ import lombok.Data;
 @Data
 public class Pusher {
 
-    protected String receiver;
-    protected String biz;
-    protected String tunnelName;
+    protected Receiver receiver;
+    protected AbstractWrappedTunnel tunnel;
+
+    public Pusher(Receiver receiver, AbstractWrappedTunnel tunnel) {
+        this.receiver = receiver;
+        this.tunnel = tunnel;
+    }
 
     @Override
-    public boolean equals(Object obj) {
+    public final boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -23,11 +29,11 @@ public class Pusher {
             return false;
         }
         Pusher o = (Pusher) obj;
-        return o.toString().equals(obj.toString());
+        return receiver.equals(o.getReceiver()) && tunnel.equals(o.getTunnel());
     }
 
     @Override
-    public int hashCode() {
-        return this.toString().hashCode();
+    public final int hashCode() {
+        return this.receiver.hashCode() + this.tunnel.hashCode();
     }
 }

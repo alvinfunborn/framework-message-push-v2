@@ -40,7 +40,7 @@ public class GeneralMessageQueuePusher extends AbstractSingleMessageQueuePusher 
         if (tunnelTip.isOk()) {
             tunnel.getRecorder().recordSuccess(message);
         } else {
-            if (message.getPolicy().getRetryPolicy() != null && message.getPolicy().getRetryPolicy().getRetry() >= message.getTryTimes().get()) {
+            if (message.retryable()) {
                 preRetry(message, tunnelTip);
                 queue.add(message, true);
             }

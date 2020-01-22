@@ -35,17 +35,7 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
 
     @Override
     public void start() {
-        doStart();
-    }
-
-    private void doStart() {
-        try {
-            if (lock.tryLock()) {
-                executor.execute(this::pushContinuously, true);
-            }
-        } finally {
-            lock.unlock();
-        }
+        executor.execute(this::pushContinuously, true);
     }
 
     @Override
@@ -61,13 +51,23 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
 
     @Override
     public void pushContinuously() {
-        while (true) {
-            Message message = pop();
-            if (message == null) {
-                break;
+        boolean getLock = false;
+        try {
+            getLock = lock.tryLock();
+            if (getLock) {
+                while (true) {
+                    Message message = pop();
+                    if (message == null) {
+                        break;
+                    }
+                    if (!pushContinuously(message)) {
+                        break;
+                    }
+                }
             }
-            if (!pushContinuously(message)) {
-                break;
+        } finally {
+            if (getLock) {
+                lock.unlock();
             }
         }
     }
@@ -87,7 +87,7 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
         String id = message.getId();
         long timeout = message.getPolicy().getTunnelPolicy().getTimeoutMills();
         long start = System.currentTimeMillis();
-        for (long now = start, step = 100; now - start < timeout; step *= 1.1, now += step) { // todo 优化等待receipt
+        for (long now = start, step = 100; now - start < timeout; step *= 1.1, now += step) {
             if (queue.consumeReceipt(id)) {
                 // find receipt
                 return TunnelTip.ok();
@@ -112,11 +112,11 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
     }
 
     protected TunnelTip doPushWhenConnected(Message message) {
-        return ((AbstractStatefulTunnel) tunnel).pushWhenConnected(message.getData());
+        return ((AbstractStatefulTunnel) tunnel).pushWhenConnected(message);
     }
 
     protected TunnelTip doPush(Message message) {
-        return tunnel.push(message.getData());
+        return tunnel.push(message);
     }
 
     protected void markTried(Message message) {
@@ -125,7 +125,6 @@ public abstract class AbstractSingleMessageQueuePusher implements SingleMessageQ
 
     protected void preRetry(Message message, TunnelTip tunnelTip) {
         message.getPolicy().setTunnelPolicy(message.getPolicy().getRetryPolicy().getTunnelPolicy());
-        // todo retry delay factory, retry max times;
         if (message.getPolicy().getRetryPolicy().isFollowSuggestiong() && validSuggestTime(tunnelTip.getSuggestTime())) {
             message.getPolicy().setTrigger(ScheduleTrigger.at(tunnelTip.getSuggestTime()));
         } else {

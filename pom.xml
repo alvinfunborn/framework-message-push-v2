@@ -12,6 +12,7 @@
         <module>message-push-substance</module>
         <module>message-push-wrapper</module>
         <module>message-push-application</module>
+        <module>message-push-network</module>
     </modules>
 
     <properties>

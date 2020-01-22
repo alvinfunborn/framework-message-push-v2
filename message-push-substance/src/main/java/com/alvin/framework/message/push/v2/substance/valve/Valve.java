@@ -1,5 +1,6 @@
 package com.alvin.framework.message.push.v2.substance.valve;
 
+import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.model.ValveTip;
 import com.alvin.framework.message.push.v2.substance.rule.Rule;
 
@@ -10,7 +11,7 @@ import com.alvin.framework.message.push.v2.substance.rule.Rule;
  */
 public interface Valve {
 
-    ValveTip control();
+    ValveTip control(Message msg);
 
     boolean support(Rule rule);
 

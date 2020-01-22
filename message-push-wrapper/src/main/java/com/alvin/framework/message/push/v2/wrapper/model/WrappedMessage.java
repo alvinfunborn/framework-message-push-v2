@@ -13,6 +13,4 @@ import lombok.EqualsAndHashCode;
 @Data
 public class WrappedMessage extends Message {
 
-    protected String receiver;
-    protected String biz;
 }

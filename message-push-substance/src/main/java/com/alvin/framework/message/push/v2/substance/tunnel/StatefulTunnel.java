@@ -1,5 +1,6 @@
 package com.alvin.framework.message.push.v2.substance.tunnel;
 
+import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
 
 /**
@@ -11,5 +12,5 @@ public interface StatefulTunnel extends Tunnel {
 
     boolean connected();
 
-    TunnelTip pushWhenConnected(String msg);
+    TunnelTip pushWhenConnected(Message msg);
 }

@@ -1,5 +1,7 @@
 package com.alvin.framework.message.push.v2.substance.tunnel;
 
+import com.alvin.framework.message.push.v2.substance.business.BusinessFactory;
+import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
 import com.alvin.framework.message.push.v2.substance.recorder.AbstractTunnelRecorder;
 import com.alvin.framework.message.push.v2.substance.valve.AbstractValve;
@@ -18,6 +20,7 @@ public abstract class AbstractTunnel implements Tunnel {
 
     protected String name;
     protected AbstractTunnelRecorder recorder;
+    protected BusinessFactory businessFactory;
     protected List<AbstractValve> valves;
 
     public AbstractTunnel(String name, AbstractTunnelRecorder recorder, List<AbstractValve> valves) {
@@ -39,5 +42,5 @@ public abstract class AbstractTunnel implements Tunnel {
         this.recorder = recorder;
     }
 
-    public abstract TunnelTip push(String msg);
+    public abstract TunnelTip push(Message msg);
 }

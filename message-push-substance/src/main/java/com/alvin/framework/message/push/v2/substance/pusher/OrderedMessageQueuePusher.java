@@ -27,7 +27,7 @@ public class OrderedMessageQueuePusher extends AbstractSingleMessageQueuePusher 
     public boolean pushContinuously(Message message) {
         PushTrigger trigger = message.getPolicy().getTrigger();
         if (trigger instanceof ScheduleTrigger) {
-            try { // todo 优化定时有序消息
+            try {
                 Thread.sleep(Duration.between(LocalDateTime.now(), ((ScheduleTrigger) trigger).getSchedule()).toMillis());
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -50,7 +50,7 @@ public class OrderedMessageQueuePusher extends AbstractSingleMessageQueuePusher 
         } else {
             markTried(message);
             tunnel.getRecorder().recordAttempt(message);
-            if (message.getPolicy().getRetryPolicy() != null && message.getPolicy().getRetryPolicy().getRetry() >= message.getTryTimes().get()) {
+            if (message.retryable()) {
                 preRetry(message, tunnelTip);
                 return pushContinuously(message);
             }

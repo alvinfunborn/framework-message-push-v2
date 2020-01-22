@@ -1,11 +1,9 @@
 package com.alvin.framework.message.push.v2.wrapper.tunnel;
 
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
-import com.alvin.framework.message.push.v2.substance.recorder.AbstractTunnelRecorder;
-import com.alvin.framework.message.push.v2.substance.valve.AbstractValve;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.alvin.framework.message.push.v2.wrapper.model.WrappedMessage;
+import com.alvin.framework.message.push.v2.wrapper.pusher.AbstractWrappedPusher;
+import com.alvin.framework.message.push.v2.wrapper.receiver.Receiver;
 
 /**
  * datetime 2020/1/18 22:38
@@ -15,8 +13,24 @@ import java.util.List;
 public abstract class AbstractWrappedTunnel implements WrappedTunnel {
 
     protected String name;
+    protected AbstractWrappedPusher pusher;
 
+    public abstract TunnelTip push(Receiver receiver, WrappedMessage msg);
 
-    public abstract TunnelTip push(String receiver, String msg);
+    @Override
+    public final boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (null == obj || getClass() != obj.getClass()) {
+            return false;
+        }
+        AbstractWrappedTunnel o = (AbstractWrappedTunnel) obj;
+        return this.name != null && this.name.equals(o.name);
+    }
 
+    @Override
+    public final int hashCode() {
+        return this.name.hashCode();
+    }
 }

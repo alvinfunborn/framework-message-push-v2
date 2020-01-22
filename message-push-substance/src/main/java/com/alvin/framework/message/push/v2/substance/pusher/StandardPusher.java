@@ -12,12 +12,11 @@ import com.alvin.framework.message.push.v2.substance.tunnel.AbstractTunnel;
  *
  * @author zhouwenxiang
  */
-public class StandardPusher implements Pusher {
+public class StandardPusher extends AbstractPusher {
 
     private OrderedMessageQueuePusher orderedMessageQueuePusher;
     private StatefulMessageQueuePusher statefulMessageQueuePusher;
     private GeneralMessageQueuePusher generalMessageQueuePusher;
-    private AbstractClusterMessageQueue messageQueue;
 
     public StandardPusher(final AbstractTunnel tunnel,
                           final Executor executor,

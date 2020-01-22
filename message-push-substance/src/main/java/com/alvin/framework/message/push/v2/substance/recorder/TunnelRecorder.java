@@ -1,6 +1,6 @@
 package com.alvin.framework.message.push.v2.substance.recorder;
 
-import com.alvin.framework.message.push.v2.substance.model.Business;
+import com.alvin.framework.message.push.v2.substance.business.Business;
 import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
 
@@ -18,6 +18,9 @@ public interface TunnelRecorder {
 
     LocalDateTime lastAttemptTime(long num);
     LocalDateTime lastAttemptTime(Business biz, long num);
+
+    LocalDateTime lastErrorTime(long num);
+    LocalDateTime lastErrorTime(Business biz, long num);
 
     void recordError(Message message, TunnelTip tip);
 

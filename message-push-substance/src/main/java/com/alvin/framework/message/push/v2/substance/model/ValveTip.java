@@ -22,13 +22,9 @@ public class ValveTip {
         return new ValveTip(false, null, null);
     }
 
-    public static ValveTip block(String tip) {
-        return new ValveTip(true, tip, null);
-    }
-
     public static ValveTip block(String tip, LocalDateTime suggestTime) {
         if (suggestTime != null && suggestTime.isBefore(LocalDateTime.now())) {
-            throw new IllegalArgumentException("suggest time before now");
+            throw new IllegalArgumentException("illegal suggest time before now");
         }
         return new ValveTip(true, tip, suggestTime);
     }

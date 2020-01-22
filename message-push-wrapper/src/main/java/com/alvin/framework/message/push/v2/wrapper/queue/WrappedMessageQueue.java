@@ -1,8 +1,9 @@
 package com.alvin.framework.message.push.v2.wrapper.queue;
 
-import com.alvin.framework.message.push.v2.substance.tunnel.AbstractTunnel;
 import com.alvin.framework.message.push.v2.wrapper.model.Pusher;
 import com.alvin.framework.message.push.v2.wrapper.model.WrappedMessage;
+import com.alvin.framework.message.push.v2.wrapper.receiver.Receiver;
+import com.alvin.framework.message.push.v2.wrapper.tunnel.AbstractWrappedTunnel;
 
 import java.util.Set;
 
@@ -13,20 +14,22 @@ import java.util.Set;
  */
 public interface WrappedMessageQueue {
 
-    void add(WrappedMessage message, AbstractTunnel tunnel, boolean head);
+    void add(Receiver receiver, WrappedMessage message, AbstractWrappedTunnel tunnel, boolean head);
 
-    WrappedMessage pop(String receiver, String biz, AbstractTunnel tunnel);
+    WrappedMessage popOrderedMessage(Receiver receiver, AbstractWrappedTunnel tunnel);
+    WrappedMessage popStatefulMessage(Receiver receiver, AbstractWrappedTunnel tunnel);
+    WrappedMessage popGeneralMessage(Receiver receiver, AbstractWrappedTunnel tunnel);
 
     Set<Pusher> pushersToTrigger();
 
-    Set<String> bizToTrigger(String receiver, String tunnelName);
+    void onSuccess(WrappedMessage message);
 
-    void onSuccess(WrappedMessage message, AbstractTunnel tunnel);
+    void onError(WrappedMessage message);
 
-    void onError(WrappedMessage message, AbstractTunnel tunnel);
+    void onAttempt(WrappedMessage message);
 
-    void onAttempt(WrappedMessage message, AbstractTunnel tunnel);
+    void reportReceipt(String messageId);
 
-    void reportReceipt(String id, String receiver, String tunnelName);
+    boolean consumeReceipt(String messageId);
 
 }

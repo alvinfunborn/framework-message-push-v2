@@ -1,14 +1,16 @@
 package com.alvin.framework.message.push.v2.wrapper.rule;
 
-import java.util.Set;
+import com.alvin.framework.message.push.v2.substance.rule.AbstractRule;
+import lombok.Getter;
 
 /**
  * datetime 2020/1/21 14:08
  *
  * @author zhouwenxiang
  */
-public abstract class AbstractWrappedRule implements WrappedRule {
+@Getter
+public abstract class AbstractWrappedRule extends AbstractRule {
 
-    protected boolean eachReceiver;
-    protected Set<String> receiverBundle;
+    protected RuleScopeOfReceiver receiverScope;
+    protected RuleScopeOfTunnel tunnelScope;
 }

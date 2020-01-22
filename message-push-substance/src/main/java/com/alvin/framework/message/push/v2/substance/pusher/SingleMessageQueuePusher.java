@@ -15,6 +15,4 @@ public interface SingleMessageQueuePusher extends Pusher {
 
     boolean postPush(Message message);
 
-    void reportReceipt(String id);
-
 }

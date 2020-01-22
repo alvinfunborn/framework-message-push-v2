@@ -1,5 +1,6 @@
 package com.alvin.framework.message.push.v2.substance.tunnel;
 
+import com.alvin.framework.message.push.v2.substance.model.Message;
 import com.alvin.framework.message.push.v2.substance.model.TunnelTip;
 import com.alvin.framework.message.push.v2.substance.model.ValveTip;
 import com.alvin.framework.message.push.v2.substance.recorder.AbstractTunnelRecorder;
@@ -20,14 +21,14 @@ public abstract class AbstractStatefulTunnel extends AbstractSingleTunnel implem
     }
 
     @Override
-    public TunnelTip push(String msg) {
+    public TunnelTip push(Message msg) {
         for (Valve valve : valves) {
-            ValveTip valveTip = valve.control();
+            ValveTip valveTip = valve.control(msg);
             if (!valveTip.isOk()) {
                 return TunnelTip.blocked(valveTip);
             }
         }
-        return doPush(msg);
+        return doPush(msg.getData());
     }
 
     /**
@@ -36,15 +37,15 @@ public abstract class AbstractStatefulTunnel extends AbstractSingleTunnel implem
      * @return TunnelResult
      */
     @Override
-    public TunnelTip pushWhenConnected(String msg) {
+    public TunnelTip pushWhenConnected(Message msg) {
         for (Valve valve : valves) {
-            ValveTip valveTip = valve.control();
+            ValveTip valveTip = valve.control(msg);
             if (!valveTip.isOk()) {
                 return TunnelTip.blocked(valveTip);
             }
         }
         if (connected()) {
-            return doPush(msg);
+            return doPush(msg.getData());
         }
         return TunnelTip.notConnected();
     }

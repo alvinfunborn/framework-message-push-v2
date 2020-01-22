@@ -1,5 +1,6 @@
 package com.alvin.framework.message.push.v2.substance.model;
 
+import com.alvin.framework.message.push.v2.substance.business.Business;
 import com.alvin.framework.message.push.v2.substance.policy.RetryablePushPolicy;
 import lombok.Data;
 

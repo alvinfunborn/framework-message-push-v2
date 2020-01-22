@@ -29,10 +29,6 @@ public class TunnelTip {
         return new TunnelTip(TunnelTipCodeEnum.ERROR, null, tip, null);
     }
 
-    public static TunnelTip error(TunnelTipCauseEnum cause) {
-        return new TunnelTip(TunnelTipCodeEnum.ERROR, cause, null, null);
-    }
-
     public static TunnelTip notConnected() {
         return new TunnelTip(TunnelTipCodeEnum.ERROR, TunnelTipCauseEnum.NOT_CONNECTED, null, null);
     }

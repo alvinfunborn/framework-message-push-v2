@@ -54,7 +54,7 @@ public class StatefulMessageQueuePusher extends AbstractSingleMessageQueuePusher
         } else {
             markTried(message);
             tunnel.getRecorder().recordAttempt(message);
-            if (message.getPolicy().getRetryPolicy() != null && message.getPolicy().getRetryPolicy().getRetry() >= message.getTryTimes().get()) {
+            if (message.retryable()) {
                 preRetry(message, tunnelTip);
                 queue.add(message, true);
             }
